@@ -1,0 +1,64 @@
+\documentclass[sigconf]{acmart}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\title{Semantic-Aware Joint Source-Channel Coding for Ultra-Low-Latency Mobile Edge Networks}
+\author{Fernando May Fuentes}
+\affiliation{\institution{Instituto Politecnico Nacional, UPIITA}\city{Mexico City}\country{Mexico}}
+\affiliation{\institution{Beihang University, School of Information and Communication Engineering}\city{Beijing}\country{China}}
+\email{fmayf1500@alumno.ipn.mx}
+\thanks{ORCID: \href{https://orcid.org/0009-0002-3953-5224}{0009-0002-3953-5224}.}
+\begin{document}
+\begin{abstract}
+Mobile edge networks require a trade-off between communication cost and task accuracy. This paper presents a transparent semantic joint source-channel coding prototype that compresses 64-dimensional synthetic task features into an 8-dimensional latent representation and transmits it over a Rayleigh fading channel. The prototype is evaluated against a matched raw-feature baseline at 0, 2, 5, and 10 dB SNR. At 2 dB, the semantic representation uses 12.5\% of the raw feature dimension and achieves 90.83\% nearest-centroid task accuracy, while the raw baseline achieves 100\%. At 0 dB, semantic accuracy falls to 83.89\%. These results show a measurable bandwidth--accuracy trade-off, not a universal advantage. The artifact is a reproducible baseline for a subsequent trained Deep JSCC evaluation with public image/task data.
+\end{abstract}
+\keywords{semantic communication, joint source-channel coding, Rayleigh fading, mobile edge computing, 6G}
+\maketitle
+
+\section{Introduction}
+Conventional communication stacks transport bits without knowing whether the receiver needs exact reconstruction or only a task-relevant representation. Semantic communication addresses this mismatch, but a useful evaluation must compare semantic compression against a matched raw baseline under the same channel. This work provides such a prototype for mobile edge networking.
+
+\section{System Model}
+An input feature vector $x\in\mathbb{R}^{64}$ is standardized and projected into a latent representation $z\in\mathbb{R}^{8}$. The Rayleigh channel is:
+\begin{equation}
+\hat z=h\odot z+n,\qquad n\sim\mathcal{N}(0,\sigma_n^2 I),
+\end{equation}
+where $h$ is sampled from a Rayleigh distribution and noise power is selected for the target SNR. The decoder applies the inverse projection and a nearest-centroid task classifier.
+
+\section{Methods}
+The prototype uses PCA as an explicit semantic compression baseline. PCA is not a neural Deep JSCC model; it provides an interpretable latent bottleneck for testing the network/channel protocol before expensive learned training. The raw baseline transmits all 64 standardized features through the same channel. The semantic baseline transmits 8 features, yielding a dimension ratio of $8/64=0.125$.
+
+\section{Experimental Protocol}
+We generate 1,200 labeled synthetic vectors from four class centers with Gaussian variation. The data are split using stratification and seed 20260915. The train/test split contains 840 and 360 samples. Experiments use SNR values 0, 2, 5, and 10 dB. The metric is nearest-centroid classification accuracy after channel corruption. This is a methodological proxy, not a real image or clinical dataset.
+
+\section{Results}
+\begin{table}[h]
+\centering
+\caption{Seeded semantic JSCC prototype results.}
+\begin{tabular}{lccc}
+\toprule
+SNR & Semantic accuracy & Raw accuracy & Dimension ratio \\
+\midrule
+0 dB & 83.89\% & 100.00\% & 12.5\% \\
+2 dB & 90.83\% & 100.00\% & 12.5\% \\
+5 dB & 96.39\% & 100.00\% & 12.5\% \\
+10 dB & 97.78\% & 100.00\% & 12.5\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The prototype demonstrates compression with graceful but measurable accuracy loss at low SNR. It does not reproduce the earlier unverified claim of 72\% bandwidth reduction and 95.4\% task accuracy; those claims require a trained model and public task dataset.
+
+\section{Limitations and Future Work}
+The dataset is synthetic, PCA is not Deep JSCC, the classifier is simple, and latency is not measured on a mobile-edge hardware platform. Future work will use public image/task data, a learned encoder/decoder, explicit power normalization, Rayleigh and blockage traces, repeated seeds, and latency/energy measurements.
+
+\section{Conclusion}
+This work establishes a reproducible semantic JSCC baseline for INCC 2026 and makes the compression--accuracy trade-off measurable. Its principal value is methodological: it prevents a semantic communication claim from being made without a matched channel baseline. A trained model and public-data experiment are required for the final submission.
+
+\begin{thebibliography}{99}
+\bibitem{strinati} E. C. Strinati and S. Barbarossa, ``6G networks: Beyond Shannon towards semantic and goal-oriented communications,'' Computer Networks, 2021.
+\bibitem{xie} H. Xie et al., ``Deep learning enabled semantic communication systems,'' IEEE Transactions on Signal Processing, 2021.
+\bibitem{bourtsoulatze} E. Bourtsoulatze et al., ``Deep joint source-channel coding for wireless image transmission,'' IEEE TCCN, 2019.
+\bibitem{goldsmith} A. Goldsmith, Wireless Communications, Cambridge University Press, 2005.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,36 @@
+{
+  "seed": 20260915,
+  "samples": 1200,
+  "features": 64,
+  "latent_dim": 8,
+  "snr": {
+    "0": {
+      "semantic_accuracy": 0.8388888888888889,
+      "raw_accuracy": 1.0,
+      "semantic_dimensions": 8,
+      "raw_dimensions": 64,
+      "bandwidth_ratio": 0.125
+    },
+    "2": {
+      "semantic_accuracy": 0.9083333333333333,
+      "raw_accuracy": 1.0,
+      "semantic_dimensions": 8,
+      "raw_dimensions": 64,
+      "bandwidth_ratio": 0.125
+    },
+    "5": {
+      "semantic_accuracy": 0.9638888888888889,
+      "raw_accuracy": 1.0,
+      "semantic_dimensions": 8,
+      "raw_dimensions": 64,
+      "bandwidth_ratio": 0.125
+    },
+    "10": {
+      "semantic_accuracy": 0.9777777777777777,
+      "raw_accuracy": 1.0,
+      "semantic_dimensions": 8,
+      "raw_dimensions": 64,
+      "bandwidth_ratio": 0.125
+    }
+  }
+}
